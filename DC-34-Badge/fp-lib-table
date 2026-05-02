@@ -6,4 +6,5 @@
   (lib (name "2171790001")(type "KiCad")(uri "../digikey-kicad-libraries/footprints/2171790001.pretty")(options "")(descr ""))
   (lib (name "DMG3415U_7")(type "KiCad")(uri "../digikey-kicad-libraries/footprints/DMG3415U_7.pretty")(options "")(descr ""))
   (lib (name "MAX17048G")(type "KiCad")(uri "../digikey-kicad-libraries/footprints/MAX17048G.pretty")(options "")(descr ""))
+  (lib (name "CX90B_16P1")(type "KiCad")(uri "../digikey-kicad-libraries/footprints/CX90B_16P1.pretty")(options "")(descr ""))
 )
