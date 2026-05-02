@@ -1,6 +1,10 @@
 fp-info-cache
 DC-34-Badge-backups/
-gerber.zip
 gerber/
 \#auto_saved_files\#
 _autosave-DC-34-Badge.kicad_sch
+*.png
+*.webp
+*.jpg
+*.jpeg
+*.zip
