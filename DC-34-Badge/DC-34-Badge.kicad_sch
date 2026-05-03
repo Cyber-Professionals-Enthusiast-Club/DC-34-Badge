@@ -6289,7 +6289,7 @@
   (symbol (lib_id "Sensor_Optical:A9050") (at 167.64 120.65 180) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 73aaa082-9ff1-4c1d-a0c8-298f98295508)
-    (property "Reference" "R40" (id 0) (at 172.72 119.3799 0)
+    (property "Reference" "R38" (id 0) (at 172.72 119.3799 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "A9050" (id 1) (at 172.72 121.9199 0)
@@ -8605,7 +8605,7 @@
       (reference "R37") (unit 1) (value "5.1k") (footprint "Resistor_SMD:R_0402_1005Metric")
     )
     (path "/73aaa082-9ff1-4c1d-a0c8-298f98295508"
-      (reference "R40") (unit 1) (value "A9050") (footprint "OptoDevice:R_LDR_5.0x4.1mm_P3mm_Vertical")
+      (reference "R38") (unit 1) (value "A9050") (footprint "OptoDevice:R_LDR_5.0x4.1mm_P3mm_Vertical")
     )
     (path "/ce49903b-5db0-4845-8787-6e74e82ac59e"
       (reference "SW1") (unit 1) (value "SW_Push_DPDT") (footprint "Button_Switch_THT:SW_CuK_JS202011CQN_DPDT_Straight")
