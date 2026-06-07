@@ -8,6 +8,15 @@
  */
 
 #include <Arduino.h>
+#include <SPI.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_ILI9341.h>
+#include "Query-SAO.h"
+
+// Set I2C bus to use: Wire, Wire1, etc.
+#define WIRE Wire
+
+//#define DEBUG_ENABLE 0
 
 /* Const values (wont change */
 // Allocated on the .text section
@@ -25,6 +34,15 @@ const uint16_t LED_LEG_LEFT_RED     = 41;
 const uint16_t LED_LEG_LEFT_YELLOW  = 42;
 const uint16_t LED_ARM_RIGHT_RED    = 45;
 const uint16_t LED_ARM_RIGHT_YELLOW = 46;
+const uint16_t BUZZER_OUT = 33;
+
+// Pin definitions (match wiring)
+const uint16_t  TFT_SCLK = 36;
+const uint16_t  TFT_MISO = 37;
+const uint16_t  TFT_MOSI = 35;
+const uint16_t  TFT_DC   = 26; // WRB
+const uint16_t  TFT_CS   = 38;
+const uint16_t  TFT_RST  = 21;
 
 // This definition maps the buttons to pins 
 const uint16_t BUTTON_SELECT = 1;
@@ -40,7 +58,8 @@ const uint16_t BUTTON_B = 14;
 const uint16_t PWM_RUMBLE = 17;
 const uint16_t PWM_BACKLIGHT = 47;
 
-
+Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC,
+      TFT_MOSI, TFT_SCLK, TFT_RST, -1);
 
 /* Variables that will change: */
 // Allocated in .bss section 
@@ -55,21 +74,43 @@ int BACKLIGHT_DUTY = 128;
 
 // constants won't change:
 const long interval = 1000;           // interval at which to blink (milliseconds)
+const long saoInterval = 1333;
 
 /* Function Calls */
 
 // This interrupt triggers when a button is pressed 
 void ARDUINO_ISR_ATTR buttonISR () {
+    #ifdef DEBUG_ENABLE 
+        Serial.print("Button Interrupt Triggered: ");
+    #endif 
+  
     static unsigned long lastUpDownButtonPress;
+    static unsigned long lastAButtonPress;
+    static unsigned long lastBButtonPress;
     int upState = digitalRead(BUTTON_UP);
     int downState = digitalRead(BUTTON_DOWN);
+    int aState = digitalRead(BUTTON_A);
+    int bState = digitalRead(BUTTON_B);
 
+    #ifdef DEBUG_ENABLE 
+        Serial.print(upState);
+        Serial.print(" ");
+        Serial.print(downState);
+        Serial.print(" ");
+        Serial.print(aState);
+        Serial.print(" ");
+        Serial.print(bState);
+        Serial.println(" ");
+    #endif 
+
+    unsigned long currentButtonPressTime = millis();
     // Scale up or down the intensity of the backlight 
+    
     if ( upState != downState)
     {
         // Last button Press
         unsigned long currentUpDownButtonPress = millis();
-        if (currentUpDownButtonPress - lastUpDownButtonPress > 100)
+        if (currentUpDownButtonPress - lastUpDownButtonPress > 10)
         {
             if (upState == HIGH) {
                 if (BACKLIGHT_DUTY < 256)
@@ -87,9 +128,65 @@ void ARDUINO_ISR_ATTR buttonISR () {
         }
         lastUpDownButtonPress = millis();
     }
+
+    
+    // Active Low, so when A is low it is high
+    if ( aState == LOW )
+    {
+        if(currentButtonPressTime - lastAButtonPress > 20)
+        {
+            if (RUMBLE_DUTY < 256)
+            {
+                RUMBLE_DUTY += 1;
+            }
+        }
+        digitalWrite(LED_LEG_LEFT_RED, HIGH);
+        digitalWrite(LED_LEG_LEFT_YELLOW, HIGH);
+        lastAButtonPress = millis();
+    }
+    else
+    {
+        if(currentButtonPressTime - lastAButtonPress > 20)
+        {
+            RUMBLE_DUTY = 0;
+            digitalWrite(LED_LEG_LEFT_RED, LOW);
+            digitalWrite(LED_LEG_LEFT_YELLOW, LOW);
+            lastAButtonPress = millis();
+        }
+    }
+    analogWrite(PWM_RUMBLE, BACKLIGHT_DUTY);
+
+    // Active Low, so when B is low it is high
+    if ( bState == LOW )
+    {
+        if(currentButtonPressTime - lastBButtonPress > 20)
+        {
+            digitalWrite(BUZZER_OUT, HIGH);
+            digitalWrite(LED_LEG_RIGHT_YELLOW, HIGH);
+            digitalWrite(LED_LEG_RIGHT_RED, HIGH);
+            lastBButtonPress = millis();
+        }
+    }
+    else
+    {
+        if(currentButtonPressTime - lastBButtonPress > 20)
+        {
+            digitalWrite(BUZZER_OUT, LOW);
+            digitalWrite(LED_LEG_RIGHT_YELLOW, LOW);
+            digitalWrite(LED_LEG_RIGHT_RED, LOW);
+            lastBButtonPress = millis();
+        }
+    }
 }
 
 void setup() {
+    #ifdef DEBUG_ENABLE 
+        Serial.begin(9600);
+        while (!Serial)
+            delay(10);
+        Serial.println("\nDC 34 Reference Firmware");
+    #endif 
+    
     // put your setup code here, to run once:
     pinMode(LED_TORSO_YELLOW, OUTPUT);
     pinMode(LED_TORSO_RED, OUTPUT);
@@ -103,15 +200,16 @@ void setup() {
     pinMode(LED_LEG_LEFT_YELLOW, OUTPUT);
     pinMode(LED_ARM_RIGHT_RED, OUTPUT);
     pinMode(LED_ARM_RIGHT_YELLOW, OUTPUT); 
+    pinMode(BUZZER_OUT, OUTPUT);
 
-    pinMode(BUTTON_SELECT, INPUT);
-    pinMode(BUTTON_START, INPUT);
-    pinMode(BUTTON_UP, INPUT);
-    pinMode(BUTTON_LEFT, INPUT);
-    pinMode(BUTTON_RIGHT, INPUT);
-    pinMode(BUTTON_DOWN, INPUT);
-    pinMode(BUTTON_A, INPUT);
-    pinMode(BUTTON_B, INPUT);
+    pinMode(BUTTON_SELECT, INPUT_PULLUP);
+    pinMode(BUTTON_START, INPUT_PULLUP);
+    pinMode(BUTTON_UP, INPUT_PULLUP);
+    pinMode(BUTTON_LEFT, INPUT_PULLUP);
+    pinMode(BUTTON_RIGHT, INPUT_PULLUP);
+    pinMode(BUTTON_DOWN, INPUT_PULLUP);
+    pinMode(BUTTON_A, INPUT_PULLUP);
+    pinMode(BUTTON_B, INPUT_PULLUP);
 
     attachInterrupt(BUTTON_SELECT, buttonISR, CHANGE);
     attachInterrupt(BUTTON_START, buttonISR, CHANGE);
@@ -127,11 +225,23 @@ void setup() {
 
     analogWrite(PWM_RUMBLE, RUMBLE_DUTY);
     analogWrite(PWM_BACKLIGHT, BACKLIGHT_DUTY);
+
+    tft.begin();
+
+    tft.setRotation(1); // Landscape
+    tft.fillScreen(ILI9341_BLACK);
+
+    tft.setTextColor(ILI9341_WHITE);
+    tft.setTextSize(1);
+    tft.setCursor(40, 120);
+
+    tft.println("Hello World!");
 }
 
 void loop() {
     unsigned long currentMillis = millis();
-
+    query_sao_collection_t saoResponse;
+    
     if (currentMillis - previousMillis >= interval) {
         // save the last time you blinked the LED
         previousMillis = currentMillis;
@@ -149,12 +259,24 @@ void loop() {
         digitalWrite(LED_ARM_LEFT_YELLOW, ledState);
         digitalWrite(LED_HEAD_YELLOW, ledState);
         digitalWrite(LED_HEAD_RED, ledState);
-        digitalWrite(LED_LEG_RIGHT_YELLOW, ledState);
-        digitalWrite(LED_LEG_RIGHT_RED, ledState);
-        digitalWrite(LED_LEG_LEFT_RED, ledState);
-        digitalWrite(LED_LEG_LEFT_YELLOW, ledState);
         digitalWrite(LED_ARM_RIGHT_RED, ledState);
         digitalWrite(LED_ARM_RIGHT_YELLOW, ledState); 
+        digitalWrite(BUZZER_OUT, ledState);
+
+
     }
+    // Query SAOs and write to the screen 
+    if (currentMillis - previousMillis >= saoInterval) {
+        saoResponse = query_sao();
+        tft.setTextSize(1);
+        tft.setCursor(10, 10);
+        tft.println(sao_return_to_string(saoResponse.SAO0));
+        tft.setCursor(10, 30);
+        tft.println(sao_return_to_string(saoResponse.SAO1));
+        tft.setCursor(10, 50);
+        tft.println(sao_return_to_string(saoResponse.SAO2));
+    }
+
+    //buttonISR();
 }
 
