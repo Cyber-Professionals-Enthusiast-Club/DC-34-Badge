@@ -7,6 +7,23 @@
  * @version 06 June 2026
  */
 
+// Code is built for the Arduino IDE 1.8.5
+// In the Arduino IDE Install these additional board managers 
+// https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+// File > Preferences (then paste into Additional Board Manager URLs)
+// 
+// Then, before verifying install the following libraries
+// Sketch > Include Library > Manage Libraries... 
+// - Adafruit seesaw Library
+// - Adafruit BusIO 
+// - Adafruit ST7735 and ST7789 Library
+// - Adafruit GFX Library 
+// - Adafruit ILI9341
+// 
+// Before uploading, select the following
+// Tools > Board: "Adafruit Feather ESP32-S3 No PSRAM"
+// 
+
 #include <Arduino.h>
 #include <SPI.h>
 #include <Adafruit_GFX.h>
