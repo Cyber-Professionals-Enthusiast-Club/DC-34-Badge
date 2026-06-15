@@ -14,10 +14,11 @@ The structure of this repo is organized as such:
 
 | Directory                | About                                                                    |
 |:-------------------------|:-------------------------------------------------------------------------|
+| art                      | SVG files of onboard art                                                 |
 | DC-34-Badge              | KiCad 6 Design files                                                     |
+| DC-34-Reference-Firmware | Reference firmware, which demonstrates driving hardware devices on board |
 | digikey-kicad-libraries  | Symbol libraries and footprints downloaded from digikey                  |
 | kicad-libraries          | git subtree containing expressif design files                            |
-| DC-34-Reference-Firmware | Reference firmware, which demonstrates driving hardware devices on board |
 
 ## Running
 ### Board Design
