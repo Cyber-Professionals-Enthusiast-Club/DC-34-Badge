@@ -9,8 +9,7 @@ typedef enum {
     QUERY_SAO_NONE = 0,
     QUERY_SAO_MISSILE_LAUNCHER,
     QUERY_SAO_GATLING_GUN,
-    QUERY_SAO_CANNON,
-    QUERY_SAO_LASER,
+    QUERY_SAO_LASER_CANNON,
     QUERY_SAO_NUM_TYPES // _NUM_TYPES should be the last value in the sequence
 } query_sao_return_t;
 
