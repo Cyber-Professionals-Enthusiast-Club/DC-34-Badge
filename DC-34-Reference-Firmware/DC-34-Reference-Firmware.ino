@@ -12,7 +12,7 @@
 // https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
 // File > Preferences (then paste into Additional Board Manager URLs)
 // 
-// Then, before verifying install the following libraries
+// Then, before verifying, install the following libraries:
 // Sketch > Include Library > Manage Libraries... 
 // - Adafruit seesaw Library
 // - Adafruit BusIO 
@@ -72,8 +72,8 @@ const uint16_t BUTTON_A = 11;
 const uint16_t BUTTON_B = 14;
 
 // PWM Pins
-const uint16_t PWM_RUMBLE = 17;
-const uint16_t PWM_BACKLIGHT = 47;
+const uint8_t PWM_RUMBLE = 17;
+const uint8_t PWM_BACKLIGHT = 47;
 
 Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC,
       TFT_MOSI, TFT_SCLK, TFT_RST, -1);
@@ -90,8 +90,12 @@ int RUMBLE_DUTY = 0;
 int BACKLIGHT_DUTY = 128;
 
 // constants won't change:
-const long interval = 1000;           // interval at which to blink (milliseconds)
-const long saoInterval = 1333;
+const long interval = 1000;           // interval at which to blink LES (milliseconds)
+const long saoInterval = 1333;        // Interval to check SAO boards 
+
+const uint32_t PWM_FREQ_BACKLIGHT = 20000; // 20 kHz 
+const uint32_t PWM_FREQ_RUMBLE = 20000; // 20 kHz 
+const uint8_t  PWM_RESOLUTION = 8; 
 
 /* Function Calls */
 
@@ -141,7 +145,7 @@ void ARDUINO_ISR_ATTR buttonISR () {
                     BACKLIGHT_DUTY -= 1;
                 }
             }
-            analogWrite(PWM_BACKLIGHT, BACKLIGHT_DUTY);
+            ledcWrite(PWM_BACKLIGHT, BACKLIGHT_DUTY);
         }
         lastUpDownButtonPress = millis();
     }
@@ -171,7 +175,7 @@ void ARDUINO_ISR_ATTR buttonISR () {
             lastAButtonPress = millis();
         }
     }
-    analogWrite(PWM_RUMBLE, BACKLIGHT_DUTY);
+    ledcWrite(PWM_RUMBLE, BACKLIGHT_DUTY);
 
     // Active Low, so when B is low it is high
     if ( bState == LOW )
@@ -216,8 +220,9 @@ void setup() {
     pinMode(LED_LEG_LEFT_RED, OUTPUT);
     pinMode(LED_LEG_LEFT_YELLOW, OUTPUT);
     pinMode(LED_ARM_RIGHT_RED, OUTPUT);
-    pinMode(LED_ARM_RIGHT_YELLOW, OUTPUT); 
+    //pinMode(LED_ARM_RIGHT_YELLOW, OUTPUT); 
     pinMode(BUZZER_OUT, OUTPUT);
+    //pinMode(PWM_BACKLIGHT, OUTPUT);
 
     pinMode(BUTTON_SELECT, INPUT_PULLUP);
     pinMode(BUTTON_START, INPUT_PULLUP);
@@ -236,12 +241,45 @@ void setup() {
     attachInterrupt(BUTTON_DOWN, buttonISR, CHANGE);
     attachInterrupt(BUTTON_A, buttonISR, CHANGE);
     attachInterrupt(BUTTON_B, buttonISR, CHANGE);
+    
+    bool pwmRumbleAttachSuccess = ledcAttach(PWM_RUMBLE, PWM_FREQ_RUMBLE, PWM_RESOLUTION);
+    bool pwmBackightAttachSuccess = ledcAttach(PWM_BACKLIGHT, PWM_FREQ_BACKLIGHT, PWM_RESOLUTION);
+    //digitalWrite(PWM_BACKLIGHT, HIGH);
+    ledcAttach(LED_ARM_RIGHT_YELLOW, PWM_FREQ_BACKLIGHT, PWM_RESOLUTION);
 
-    pinMode(PWM_RUMBLE, OUTPUT);
-    pinMode(PWM_BACKLIGHT, OUTPUT);
+    #ifdef DEBUG_ENABLE 
+        if (pwmRumbleAttachSuccess) {
+            Serial.println("Rumble PWM attach success");
+        } 
+        else {
+            Serial.println("Rumble PWM attach not successful");
+        }
+        if (pwmBackightAttachSuccess) {
+            Serial.println("Backlight PWM attach success");
+        } 
+        else {
+            Serial.println("Backlight PWM attach not successful");
+        }
+    #endif 
+    
+    bool pwmRumbleWriteSuccess = ledcWrite(PWM_RUMBLE, RUMBLE_DUTY);
+    bool pwmBackightWriteSuccess = ledcWrite(PWM_BACKLIGHT, BACKLIGHT_DUTY);
+    ledcWrite(LED_ARM_RIGHT_YELLOW, 0);
 
-    analogWrite(PWM_RUMBLE, RUMBLE_DUTY);
-    analogWrite(PWM_BACKLIGHT, BACKLIGHT_DUTY);
+    #ifdef DEBUG_ENABLE 
+        if (pwmRumbleWriteSuccess) {
+            Serial.println("Rumble PWM write success");
+        } 
+        else {
+            Serial.println("Rumble PWM write not successful");
+        }
+        if (pwmBackightWriteSuccess) {
+            Serial.println("Backlight PWM write success");
+        } 
+        else {
+            Serial.println("Backlight PWM write not successful");
+        }
+    #endif 
 
     tft.begin();
 
@@ -277,8 +315,17 @@ void loop() {
         digitalWrite(LED_HEAD_YELLOW, ledState);
         digitalWrite(LED_HEAD_RED, ledState);
         digitalWrite(LED_ARM_RIGHT_RED, ledState);
-        digitalWrite(LED_ARM_RIGHT_YELLOW, ledState); 
+        //digitalWrite(LED_ARM_RIGHT_YELLOW, ledState); 
         digitalWrite(BUZZER_OUT, ledState);
+
+        if (ledState == HIGH)
+        {
+            ledcFade(LED_ARM_RIGHT_YELLOW, 0, 255, 500);
+        }
+        else
+        {
+            ledcFade(LED_ARM_RIGHT_YELLOW, 255, 0, 500);
+        }
 
 
     }
