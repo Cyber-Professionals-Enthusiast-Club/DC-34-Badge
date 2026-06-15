@@ -12,22 +12,37 @@ Enthusiast Club (CPEC) DEFCON 34 Badge.
 ## Project Structure
 The structure of this repo is organized as such:
 
-| Directory               | About                                                   |
-|:------------------------|:--------------------------------------------------------|
-| DC-34-Badge             | KiCad 6 Design files                                    |
-| digikey-kicad-libraries | Symbol libraries and footprints downloaded from digikey |
-| kicad-libraries         | git subtree containing expressif design files           |
+| Directory                | About                                                                    |
+|:-------------------------|:-------------------------------------------------------------------------|
+| DC-34-Badge              | KiCad 6 Design files                                                     |
+| digikey-kicad-libraries  | Symbol libraries and footprints downloaded from digikey                  |
+| kicad-libraries          | git subtree containing expressif design files                            |
+| DC-34-Reference-Firmware | Reference firmware, which demonstrates driving hardware devices on board |
 
 ## Running
+### Board Design
 To view schematics, please run KiCad 6.0.11 or later. Change directory into 
 DC-34-Badge and run
 ```
-kicad DC-34-Badge.kicad_pro
+$ kicad DC-34-Badge.kicad_pro &
 ```
 
 Please note: please run kicad from the same directory as the .kicad_pro file 
 is stored because the fp-lib-table and sym-lib-table use relative paths 
 so that this project is portable between computers.
+
+### Reference Firmware 
+To develop the reference firmware, which demonstrates interfacing with hardware
+devices on the board, change directory into DC-34-Reference-Firmware and run:
+```
+$ arduino-1.8.5 DC-34-Reference-Firmware &
+```
+Follow the instructions in the comments to set up your development enviroment
+for the board. 
+
+Prototype "Rev 1" board should be set up with the configuration in the image below: 
+
+![Rev 1 CPEC DC 34 Board showing backwards placed screen and USB dataline inverter](https://i.imgur.com/GchWWEE.jpeg)
 
 # Associated Repos
 Board firmware is developed in this repo: 
