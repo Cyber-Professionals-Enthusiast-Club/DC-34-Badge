@@ -49,3 +49,6 @@ Prototype "Rev 1" board should be set up with the configuration in the image bel
 Board firmware is developed in this repo: 
 [https://github.com/wildcat86/DC34-Mech-Badge](https://github.com/wildcat86/DC34-Mech-Badge)
 
+# Media
+## Board Schematics 
+![Rev 2 Schematic with ESP-32-S3](https://i.imgur.com/LsyFVqm.png)
