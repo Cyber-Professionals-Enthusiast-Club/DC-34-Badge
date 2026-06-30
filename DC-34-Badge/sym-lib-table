@@ -7,4 +7,5 @@
   (lib (name "2026-04-03_03-59-32")(type "KiCad")(uri "../digikey-kicad-libraries/libraries/2026-04-03_03-59-32.kicad_sym")(options "")(descr ""))
   (lib (name "ESP32-S3-MINI-1-N8")(type "KiCad")(uri "../digikey-kicad-libraries/libraries/ESP32-S3-MINI-1-N8.kicad_sym")(options "")(descr ""))
   (lib (name "CX90B-16P1")(type "KiCad")(uri "../digikey-kicad-libraries/libraries/CX90B-16P1.kicad_sym")(options "")(descr ""))
+  (lib (name "UJ20-C-H-G-SMT-5-P16-TR")(type "KiCad")(uri "../digikey-kicad-libraries/libraries/UJ20-C-H-G-SMT-5-P16-TR.kicad_sym")(options "")(descr ""))
 )
