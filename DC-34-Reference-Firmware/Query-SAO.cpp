@@ -1,5 +1,6 @@
 #include "Query-SAO.h" 
 #include <Wire.h>
+#include <Adafruit_MAX1704X.h>
 #include "Adafruit_seesaw.h"
 
 query_sao_collection_t query_sao(void)
@@ -7,10 +8,11 @@ query_sao_collection_t query_sao(void)
     const int sda_pin = 4;
     const int scl_pin = 5;
   
-    query_sao_collection_t returnVal = {QUERY_SAO_NONE, QUERY_SAO_NONE, QUERY_SAO_NONE};
+    query_sao_collection_t returnVal = {QUERY_SAO_NONE, QUERY_SAO_NONE, QUERY_SAO_NONE, 0};
     Adafruit_seesaw sao0;
     Adafruit_seesaw sao1; 
     Adafruit_seesaw sao2;
+    Adafruit_MAX17048 maxlipo;
     uint32_t pinRead = 0x3F;
     byte error;
      
@@ -18,6 +20,12 @@ query_sao_collection_t query_sao(void)
 
     WIRE.setPins(sda_pin, scl_pin);
     WIRE.begin();
+
+    // Get cell voltage
+    maxlipo.begin(&WIRE);
+    returnVal.chipID = maxlipo.getChipID();
+    maxlipo.cellPercent();
+    
     //WIRE.setClock(10000);
     WIRE.beginTransmission(address);
     error = WIRE.endTransmission();
@@ -60,7 +68,9 @@ query_sao_collection_t query_sao(void)
             sao2.digitalWrite(10, LOW);
         }
     }
-      
+
+    
+    returnVal.battery_percentage = maxlipo.cellPercent();
     return returnVal;
 }
 

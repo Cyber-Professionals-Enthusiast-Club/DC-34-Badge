@@ -19,6 +19,7 @@
 // - Adafruit ST7735 and ST7789 Library
 // - Adafruit GFX Library 
 // - Adafruit ILI9341
+// - Adafruit MAX1704X
 // 
 // Before uploading, select the following
 // Tools > Board: "Adafruit Feather ESP32-S3 No PSRAM"
@@ -161,29 +162,34 @@ void ARDUINO_ISR_ATTR buttonISR () {
             {
                 RUMBLE_DUTY += 1;
             }
+            digitalWrite(LED_LEG_LEFT_RED, HIGH);
+            digitalWrite(LED_LEG_LEFT_YELLOW, HIGH);
         }
-        digitalWrite(LED_LEG_LEFT_RED, HIGH);
-        digitalWrite(LED_LEG_LEFT_YELLOW, HIGH);
+
         lastAButtonPress = millis();
     }
     else
     {
         if(currentButtonPressTime - lastAButtonPress > 20)
         {
+            /*
             RUMBLE_DUTY = 0;
             digitalWrite(LED_LEG_LEFT_RED, LOW);
             digitalWrite(LED_LEG_LEFT_YELLOW, LOW);
             lastAButtonPress = millis();
+            */
+            digitalWrite(LED_LEG_LEFT_RED, LOW);
+            digitalWrite(LED_LEG_LEFT_YELLOW, LOW);
         }
     }
-    ledcWrite(PWM_RUMBLE, BACKLIGHT_DUTY);
+    //ledcWrite(PWM_RUMBLE, RUMBLE_DUTY);
 
     // Active Low, so when B is low it is high
     if ( bState == LOW )
     {
         if(currentButtonPressTime - lastBButtonPress > 20)
         {
-            digitalWrite(BUZZER_OUT, HIGH);
+            digitalWrite(PWM_RUMBLE, HIGH);
             digitalWrite(LED_LEG_RIGHT_YELLOW, HIGH);
             digitalWrite(LED_LEG_RIGHT_RED, HIGH);
             lastBButtonPress = millis();
@@ -193,7 +199,7 @@ void ARDUINO_ISR_ATTR buttonISR () {
     {
         if(currentButtonPressTime - lastBButtonPress > 20)
         {
-            digitalWrite(BUZZER_OUT, LOW);
+            digitalWrite(PWM_RUMBLE, LOW);
             digitalWrite(LED_LEG_RIGHT_YELLOW, LOW);
             digitalWrite(LED_LEG_RIGHT_RED, LOW);
             lastBButtonPress = millis();
@@ -243,8 +249,9 @@ void setup() {
     attachInterrupt(BUTTON_A, buttonISR, CHANGE);
     attachInterrupt(BUTTON_B, buttonISR, CHANGE);
     
-    bool pwmRumbleAttachSuccess = ledcAttach(PWM_RUMBLE, PWM_FREQ_RUMBLE, PWM_RESOLUTION);
+    //bool pwmRumbleAttachSuccess = ledcAttach(PWM_RUMBLE, PWM_FREQ_RUMBLE, PWM_RESOLUTION);
     bool pwmBackightAttachSuccess = ledcAttach(PWM_BACKLIGHT, PWM_FREQ_BACKLIGHT, PWM_RESOLUTION);
+    pinMode(PWM_RUMBLE, OUTPUT);
     //digitalWrite(PWM_BACKLIGHT, HIGH);
     ledcAttach(LED_ARM_RIGHT_YELLOW, PWM_FREQ_BACKLIGHT, PWM_RESOLUTION);
 
@@ -263,7 +270,7 @@ void setup() {
         }
     #endif 
     
-    bool pwmRumbleWriteSuccess = ledcWrite(PWM_RUMBLE, RUMBLE_DUTY);
+    //bool pwmRumbleWriteSuccess = ledcWrite(PWM_RUMBLE, RUMBLE_DUTY);
     bool pwmBackightWriteSuccess = ledcWrite(PWM_BACKLIGHT, BACKLIGHT_DUTY);
     ledcWrite(LED_ARM_RIGHT_YELLOW, 0);
 
@@ -317,7 +324,7 @@ void loop() {
         digitalWrite(LED_HEAD_RED, ledState);
         digitalWrite(LED_ARM_RIGHT_RED, ledState);
         //digitalWrite(LED_ARM_RIGHT_YELLOW, ledState); 
-        digitalWrite(BUZZER_OUT, ledState);
+        //digitalWrite(BUZZER_OUT, ledState);
 
         if (ledState == HIGH)
         {
@@ -343,6 +350,13 @@ void loop() {
         tft.println(sao_return_to_string(saoResponse.SAO1));
         tft.setCursor(10, 50);
         tft.println(sao_return_to_string(saoResponse.SAO2));
+        tft.setCursor(10, 70);
+        tft.print("Battery ID: ");
+        tft.println(saoResponse.chipID, HEX);
+        tft.setCursor(10, 90);
+        tft.print("Battery Level: ");
+        tft.println(saoResponse.battery_percentage);
+
         previousSaoMillis = millis();
     }
 

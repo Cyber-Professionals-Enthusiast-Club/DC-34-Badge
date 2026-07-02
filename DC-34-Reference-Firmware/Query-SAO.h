@@ -17,6 +17,8 @@ typedef struct {
     query_sao_return_t SAO0;
     query_sao_return_t SAO1;
     query_sao_return_t SAO2;
+    float battery_percentage;
+    unsigned char chipID;
 } query_sao_collection_t;
 
 /**
