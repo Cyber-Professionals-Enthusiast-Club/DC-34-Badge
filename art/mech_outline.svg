@@ -21,9 +21,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="0.5707911"
-     inkscape:cx="97.233471"
-     inkscape:cy="474.77965"
+     inkscape:zoom="2.002673"
+     inkscape:cx="417.19241"
+     inkscape:cy="649.63175"
      inkscape:window-width="1920"
      inkscape:window-height="1011"
      inkscape:window-x="0"
@@ -447,7 +447,7 @@
   </g>
   <g
      id="g16731-9-0"
-     transform="rotate(90,630.01675,457.06787)">
+     transform="matrix(0,1,1,0,-192.57711,-172.94888)">
     <ellipse
        style="fill:none;stroke:#000000;stroke-width:0.31501;stroke-opacity:1"
        id="path16463-20-3"
@@ -612,7 +612,7 @@
   </g>
   <g
      id="g16731-9-0-5"
-     transform="rotate(90,269.7791,817.26028)">
+     transform="matrix(0,1,1,0,-192.53187,547.48118)">
     <ellipse
        style="fill:none;stroke:#000000;stroke-width:0.31501;stroke-opacity:1"
        id="path16463-20-3-4"
