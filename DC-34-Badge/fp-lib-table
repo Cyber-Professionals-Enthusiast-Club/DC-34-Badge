@@ -9,5 +9,5 @@
   (lib (name "CX90B_16P1")(type "KiCad")(uri "../digikey-kicad-libraries/footprints/CX90B_16P1.pretty")(options "")(descr ""))
   (lib (name "UJ20_C_H_G_SMT_5_P16")(type "KiCad")(uri "../digikey-kicad-libraries/footprints/UJ20_C_H_G_SMT_5_P16.pretty")(options "")(descr ""))
   (lib (name "155124YS73200")(type "KiCad")(uri "../digikey-kicad-libraries/footprints/155124YS73200.pretty")(options "")(descr ""))
-  (lib (name "DC-34-MechSuit")(type "KiCad")(uri "..//kicad-libraries/footprints/DC-34-MechSuit.pretty")(options "")(descr ""))
+  (lib (name "DC-34-MechSuit")(type "KiCad")(uri "../kicad-libraries/footprints/DC-34-MechSuit.pretty")(options "")(descr ""))
 )
