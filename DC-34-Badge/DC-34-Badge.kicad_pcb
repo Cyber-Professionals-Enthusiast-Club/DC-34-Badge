@@ -330099,7 +330099,7 @@
   (gr_text "CPEC Mechfighters Badge Rev 2" (at 67.056 122.428) (layer "F.SilkS") (tstamp a3c99ee6-4425-45e1-b078-6fc9d2e75c5b)
     (effects (font (size 1.5 1.5) (thickness 0.3)))
   )
-  (gr_text "Made By:\nMinistry\nsshinobi\nbrothercroo\nArtist\nAniziki\npanik\nd1rtyb3rt" (at 60.96 26.416) (layer "F.SilkS") (tstamp b7c03d3b-a9b8-4d67-977f-b69db1482142)
+  (gr_text "Made By:\nMinistry\nsshinobi\nbrothercroo\nArtist\nAniziki\npanik\nd1rtyb3rt\nmeek\nCapJ" (at 60.96 26.416) (layer "F.SilkS") (tstamp b7c03d3b-a9b8-4d67-977f-b69db1482142)
     (effects (font (size 1.5 1.5) (thickness 0.3)))
   )
   (gr_text "DOWN" (at 77.216 172.974) (layer "F.SilkS") (tstamp cf6b888a-9339-4354-9131-41c679af0b83)
