@@ -5921,7 +5921,7 @@
   (symbol (lib_id "Sensor_Optical:A9050") (at 167.64 120.65 180) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 73aaa082-9ff1-4c1d-a0c8-298f98295508)
-    (property "Reference" "R38" (id 0) (at 172.72 119.3799 0)
+    (property "Reference" "R31" (id 0) (at 172.72 119.3799 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "A9050" (id 1) (at 172.72 121.9199 0)
@@ -6321,7 +6321,7 @@
   (symbol (lib_id "Device:R") (at 33.02 74.93 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid a0342ada-8515-4b16-a0d9-b55b1999cbb3)
-    (property "Reference" "R34" (id 0) (at 35.56 73.6599 0)
+    (property "Reference" "R13" (id 0) (at 35.56 73.6599 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "5.1k" (id 1) (at 35.56 76.1999 0)
@@ -7048,7 +7048,7 @@
   (symbol (lib_id "Device:R") (at 15.24 74.93 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid d6e65de8-64e1-4eef-9b55-9495b1f6c46a)
-    (property "Reference" "R32" (id 0) (at 17.78 73.6599 0)
+    (property "Reference" "R17" (id 0) (at 17.78 73.6599 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "5.1k" (id 1) (at 17.78 76.1999 0)
@@ -7457,7 +7457,7 @@
   (symbol (lib_id "Device:R") (at 44.45 74.93 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid fd6ad98c-9270-4ff7-8b0d-30cda40628e4)
-    (property "Reference" "R36" (id 0) (at 46.99 73.6599 0)
+    (property "Reference" "R8" (id 0) (at 46.99 73.6599 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "5.1k" (id 1) (at 46.99 76.1999 0)
@@ -7904,6 +7904,9 @@
     (path "/94d4d932-f1c4-470d-9a83-95623a01c786"
       (reference "R7") (unit 1) (value "10k") (footprint "Resistor_SMD:R_0402_1005Metric")
     )
+    (path "/fd6ad98c-9270-4ff7-8b0d-30cda40628e4"
+      (reference "R8") (unit 1) (value "5.1k") (footprint "Resistor_SMD:R_0402_1005Metric")
+    )
     (path "/19ba2f43-734c-421f-9424-e74e2c04ed87"
       (reference "R9") (unit 1) (value "5.1k") (footprint "Resistor_SMD:R_0402_1005Metric")
     )
@@ -7916,6 +7919,9 @@
     (path "/6b7dfb75-8097-421b-b1d0-1b284d777fcd"
       (reference "R12") (unit 1) (value "5.1k") (footprint "Resistor_SMD:R_0402_1005Metric")
     )
+    (path "/a0342ada-8515-4b16-a0d9-b55b1999cbb3"
+      (reference "R13") (unit 1) (value "5.1k") (footprint "Resistor_SMD:R_0402_1005Metric")
+    )
     (path "/4b2b5207-6ea8-4ab4-bba7-0b7880eae389"
       (reference "R14") (unit 1) (value "5.1k") (footprint "Resistor_SMD:R_0402_1005Metric")
     )
@@ -7924,6 +7930,9 @@
     )
     (path "/25c5da37-87d1-475d-8a94-3e555b9c8660"
       (reference "R16") (unit 1) (value "5.1k") (footprint "Resistor_SMD:R_0402_1005Metric")
+    )
+    (path "/d6e65de8-64e1-4eef-9b55-9495b1f6c46a"
+      (reference "R17") (unit 1) (value "5.1k") (footprint "Resistor_SMD:R_0402_1005Metric")
     )
     (path "/b4dbf6c5-a097-4232-9e19-53f944dba0b3"
       (reference "R18") (unit 1) (value "5.1k") (footprint "Resistor_SMD:R_0402_1005Metric")
@@ -7964,17 +7973,8 @@
     (path "/5a9676a6-a48e-45e9-8084-89c0655e0edb"
       (reference "R30") (unit 1) (value "5.1k") (footprint "Resistor_SMD:R_0402_1005Metric")
     )
-    (path "/d6e65de8-64e1-4eef-9b55-9495b1f6c46a"
-      (reference "R32") (unit 1) (value "5.1k") (footprint "Resistor_SMD:R_0402_1005Metric")
-    )
-    (path "/a0342ada-8515-4b16-a0d9-b55b1999cbb3"
-      (reference "R34") (unit 1) (value "5.1k") (footprint "Resistor_SMD:R_0402_1005Metric")
-    )
-    (path "/fd6ad98c-9270-4ff7-8b0d-30cda40628e4"
-      (reference "R36") (unit 1) (value "5.1k") (footprint "Resistor_SMD:R_0402_1005Metric")
-    )
     (path "/73aaa082-9ff1-4c1d-a0c8-298f98295508"
-      (reference "R38") (unit 1) (value "A9050") (footprint "OptoDevice:R_LDR_5.0x4.1mm_P3mm_Vertical")
+      (reference "R31") (unit 1) (value "A9050") (footprint "OptoDevice:R_LDR_5.0x4.1mm_P3mm_Vertical")
     )
     (path "/ce49903b-5db0-4845-8787-6e74e82ac59e"
       (reference "SW1") (unit 1) (value "SW_Push_DPDT") (footprint "Button_Switch_THT:SW_CuK_JS202011CQN_DPDT_Straight")
