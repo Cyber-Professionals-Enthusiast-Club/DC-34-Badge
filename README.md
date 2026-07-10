@@ -47,7 +47,7 @@ Prototype "Rev 1" board should be set up with the configuration in the image bel
 
 # Associated Repos
 Board firmware is developed in this repo: 
-[https://github.com/wildcat86/DC34-Mech-Badge](https://github.com/wildcat86/DC34-Mech-Badge)
+[https://github.com/Cyber-Professionals-Enthusiast-Club/DC34-Mech-Badge-Game](https://github.com/Cyber-Professionals-Enthusiast-Club/DC34-Mech-Badge-Game)
 
 # Media
 ## Board Schematics 
