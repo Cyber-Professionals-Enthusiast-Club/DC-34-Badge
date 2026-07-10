@@ -51,4 +51,18 @@ Board firmware is developed in this repo:
 
 # Media
 ## Board Schematics 
-![Rev 2 Schematic with ESP-32-S3](https://i.imgur.com/LsyFVqm.png)
+![Rev 2 Schematic with ESP-32-S3](https://i.imgur.com/lkTOgR3.png)
+
+## 3D Renders
+
+### Board Front View
+![Rev 2 Board Front View](https://i.imgur.com/9MR0nGA.png)
+
+### Board Back View
+![Rev 2 Board Back View](https://i.imgur.com/noXTeLr.png)
+
+### Panelized Board Front View
+![Rev 2 Panelized Board Front View](https://i.imgur.com/FbZeWPK.png)
+
+### Panelized Board Back View
+![Rev 2 Panelized Board Back View](https://i.imgur.com/y9HTTpk.png)
